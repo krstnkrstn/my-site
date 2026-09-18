@@ -1,0 +1,406 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta name="description" content="Kristine is a designer shaping thoughtful identities, digital experiences, and visual worlds.">
+	<title>Kristine — Designer</title>
+	<style>
+		:root {
+			--periwinkle: #b8bcff;
+			--periwinkle-light: #dfe1ff;
+			--lavender: #f0efff;
+			--ink: #202050;
+			--violet: #615cc7;
+			--coral: #ff947f;
+			--cream: #fffaf2;
+			--line: rgba(32, 32, 80, 0.22);
+			--shadow: 0 18px 45px rgba(55, 50, 125, 0.16);
+		}
+
+		* { box-sizing: border-box; }
+
+		html { scroll-behavior: smooth; }
+
+		body {
+			margin: 0;
+			color: var(--ink);
+			background: var(--periwinkle);
+			font-family: "Trebuchet MS", "Gill Sans", sans-serif;
+			font-size: 16px;
+			line-height: 1.5;
+		}
+
+		a { color: inherit; text-decoration: none; }
+
+		.site-header,
+		main > section,
+		.site-footer {
+			width: min(1180px, calc(100% - 64px));
+			margin: 0 auto;
+		}
+
+		.site-header {
+			display: flex;
+			justify-content: space-between;
+			align-items: center;
+			padding: 28px 0;
+			font-size: 0.82rem;
+			font-weight: 700;
+			letter-spacing: 0.08em;
+			text-transform: uppercase;
+		}
+
+		.wordmark { font-size: 1rem; letter-spacing: 0.02em; text-transform: none; }
+
+		nav { display: flex; gap: 28px; }
+
+		nav a { border-bottom: 1px solid transparent; transition: border-color 180ms ease; }
+		nav a:hover { border-color: currentColor; }
+
+		.hero {
+			min-height: 700px;
+			display: grid;
+			grid-template-columns: minmax(0, 1.05fr) minmax(360px, 0.95fr);
+			align-items: center;
+			gap: 70px;
+			padding: 55px 0 100px;
+		}
+
+		.eyebrow {
+			display: inline-flex;
+			align-items: center;
+			gap: 9px;
+			margin: 0 0 28px;
+			font-size: 0.78rem;
+			font-weight: 700;
+			letter-spacing: 0.12em;
+			text-transform: uppercase;
+		}
+
+		.eyebrow::before {
+			width: 9px;
+			height: 9px;
+			border-radius: 50%;
+			background: var(--coral);
+			content: "";
+		}
+
+		h1,
+		h2,
+		p { margin-top: 0; }
+
+		h1 {
+			max-width: 650px;
+			margin-bottom: 30px;
+			font-family: Georgia, "Times New Roman", serif;
+			font-size: clamp(4rem, 8vw, 8.5rem);
+			font-weight: 400;
+			letter-spacing: -0.06em;
+			line-height: 0.86;
+		}
+
+		.hero-copy {
+			max-width: 450px;
+			margin-bottom: 35px;
+			font-size: 1.1rem;
+			line-height: 1.65;
+		}
+
+		.button {
+			display: inline-flex;
+			align-items: center;
+			gap: 16px;
+			padding: 14px 18px;
+			border: 1px solid var(--ink);
+			border-radius: 999px;
+			background: var(--ink);
+			color: var(--cream);
+			font-size: 0.82rem;
+			font-weight: 700;
+			letter-spacing: 0.06em;
+			text-transform: uppercase;
+			transition: background 180ms ease, color 180ms ease, transform 180ms ease;
+		}
+
+		.button:hover { background: transparent; color: var(--ink); transform: translateY(-2px); }
+		.button span { font-size: 1.15rem; line-height: 0; }
+
+		.hero-art {
+			position: relative;
+			min-height: 470px;
+			border: 1px solid var(--ink);
+			border-radius: 50% 50% 18px 18px;
+			background: var(--lavender);
+			box-shadow: var(--shadow);
+			overflow: hidden;
+			transform: rotate(3deg);
+		}
+
+		.hero-art::before {
+			position: absolute;
+			inset: 12% 14% auto auto;
+			width: 190px;
+			height: 190px;
+			border-radius: 50%;
+			background: var(--coral);
+			content: "";
+		}
+
+		.hero-art::after {
+			position: absolute;
+			right: -10%;
+			bottom: -4%;
+			width: 72%;
+			height: 48%;
+			border-radius: 50% 50% 0 0;
+			background: var(--violet);
+			content: "";
+		}
+
+		.art-type {
+			position: absolute;
+			z-index: 1;
+			top: 22%;
+			left: 12%;
+			max-width: 260px;
+			font-family: Georgia, "Times New Roman", serif;
+			font-size: clamp(3rem, 7vw, 6.5rem);
+			line-height: 0.85;
+			transform: rotate(-8deg);
+		}
+
+		.art-label {
+			position: absolute;
+			z-index: 2;
+			right: 14%;
+			bottom: 12%;
+			color: var(--cream);
+			font-size: 0.72rem;
+			font-weight: 700;
+			letter-spacing: 0.15em;
+			text-transform: uppercase;
+			writing-mode: vertical-rl;
+		}
+
+		.section-light {
+			width: 100%;
+			padding: 95px 0 110px;
+			background: var(--cream);
+		}
+
+		.section-heading {
+			display: flex;
+			justify-content: space-between;
+			align-items: end;
+			gap: 30px;
+			margin-bottom: 46px;
+		}
+
+		h2 {
+			max-width: 600px;
+			margin-bottom: 0;
+			font-family: Georgia, "Times New Roman", serif;
+			font-size: clamp(2.4rem, 5vw, 5rem);
+			font-weight: 400;
+			letter-spacing: -0.045em;
+			line-height: 0.98;
+		}
+
+		.section-note { max-width: 220px; margin-bottom: 5px; font-size: 0.88rem; }
+
+		.projects {
+			display: grid;
+			grid-template-columns: 1.15fr 0.85fr;
+			gap: 24px;
+		}
+
+		.project { min-width: 0; }
+
+		.project-image {
+			position: relative;
+			display: flex;
+			align-items: end;
+			min-height: 360px;
+			padding: 28px;
+			overflow: hidden;
+		}
+
+		.project-image::before,
+		.project-image::after { position: absolute; content: ""; }
+
+		.project-image--one { background: #f3b8b0; }
+		.project-image--one::before {
+			width: 290px;
+			height: 290px;
+			top: -55px;
+			right: -20px;
+			border-radius: 50%;
+			background: #fce1c9;
+		}
+		.project-image--one::after {
+			width: 70%;
+			height: 65%;
+			right: -5%;
+			bottom: -25%;
+			border-radius: 50% 50% 0 0;
+			background: var(--violet);
+		}
+
+		.project-image--two { background: #e2e4ff; }
+		.project-image--two::before {
+			width: 220px;
+			height: 220px;
+			top: 38px;
+			left: 50%;
+			border: 34px solid var(--coral);
+			border-radius: 50%;
+			transform: translateX(-50%);
+		}
+		.project-image--two::after {
+			width: 150%;
+			height: 30px;
+			bottom: 25%;
+			left: -25%;
+			background: var(--ink);
+			transform: rotate(-18deg);
+		}
+
+		.image-title {
+			position: relative;
+			z-index: 1;
+			max-width: 75%;
+			font-family: Georgia, "Times New Roman", serif;
+			font-size: clamp(2.3rem, 5vw, 5.5rem);
+			letter-spacing: -0.06em;
+			line-height: 0.82;
+		}
+
+		.project-meta {
+			display: flex;
+			justify-content: space-between;
+			gap: 12px;
+			padding: 15px 0 0;
+			font-size: 0.8rem;
+			font-weight: 700;
+			letter-spacing: 0.06em;
+			text-transform: uppercase;
+		}
+
+		.project-meta span:last-child { color: var(--violet); }
+
+		.about {
+			display: grid;
+			grid-template-columns: 0.9fr 1.1fr;
+			gap: 100px;
+			padding-top: 120px;
+			padding-bottom: 130px;
+		}
+
+		.about h2 { font-size: clamp(2.8rem, 5vw, 5.4rem); }
+		.about-copy { max-width: 570px; padding-top: 16px; font-size: 1.18rem; line-height: 1.65; }
+		.about-copy p:last-child { margin-top: 28px; font-size: 0.9rem; }
+
+		.site-footer {
+			display: flex;
+			justify-content: space-between;
+			gap: 30px;
+			padding: 24px 0 32px;
+			border-top: 1px solid var(--line);
+			font-size: 0.78rem;
+			font-weight: 700;
+			letter-spacing: 0.06em;
+			text-transform: uppercase;
+		}
+
+		.footer-links { display: flex; gap: 24px; }
+		.footer-links a:hover { text-decoration: underline; }
+
+		@media (max-width: 760px) {
+			.site-header,
+			main > section,
+			.site-footer { width: min(100% - 36px, 560px); }
+			.site-header { padding: 22px 0; }
+			nav { gap: 16px; }
+			.hero { display: block; min-height: auto; padding: 70px 0 85px; }
+			h1 { margin-bottom: 25px; font-size: clamp(4rem, 19vw, 7rem); }
+			.hero-art { min-height: 380px; margin: 65px 8px 0; }
+			.section-light { padding: 75px 0 85px; }
+			.section-heading { display: block; margin-bottom: 32px; }
+			.section-note { margin-top: 22px; }
+			.projects, .about { display: block; }
+			.project + .project { margin-top: 38px; }
+			.project-image { min-height: 310px; }
+			.about { padding-top: 80px; padding-bottom: 85px; }
+			.about-copy { padding-top: 30px; }
+			.site-footer { display: block; }
+			.footer-links { margin-top: 15px; }
+		}
+	</style>
+</head>
+<body>
+	<header class="site-header">
+		<a class="wordmark" href="#top">Kristine / designer</a>
+		<nav aria-label="Main navigation">
+			<a href="#work">Work</a>
+			<a href="#about">About</a>
+			<a href="mailto:hello@kristine.design">Say hello</a>
+		</nav>
+	</header>
+
+	<main id="top">
+		<section class="hero" aria-labelledby="hero-title">
+			<div>
+				<p class="eyebrow">Independent creative studio</p>
+				<h1 id="hero-title">Ideas with a little more feeling.</h1>
+				<p class="hero-copy">I’m Kristine, a designer making identities, digital experiences, and visual systems for people building something meaningful.</p>
+				<a class="button" href="#work">See selected work <span aria-hidden="true">↘</span></a>
+			</div>
+			<div class="hero-art" role="img" aria-label="Abstract composition of a coral circle, violet curve, and expressive typography">
+				<span class="art-type">make<br>room</span>
+				<span class="art-label">Shape / Form / Feeling</span>
+			</div>
+		</section>
+
+		<div class="section-light" id="work">
+			<section aria-labelledby="work-title">
+				<div class="section-heading">
+					<h2 id="work-title">A few things I’ve made.</h2>
+					<p class="section-note">Selected projects across identity, web, and art direction.</p>
+				</div>
+				<div class="projects">
+					<article class="project">
+						<div class="project-image project-image--one">
+							<span class="image-title">Sonder<br>House</span>
+						</div>
+						<div class="project-meta"><span>Sonder House</span><span>Identity · 2024</span></div>
+					</article>
+					<article class="project">
+						<div class="project-image project-image--two">
+							<span class="image-title">Good<br>form</span>
+						</div>
+						<div class="project-meta"><span>Good Form</span><span>Digital · 2023</span></div>
+					</article>
+				</div>
+			</section>
+		</div>
+
+		<section class="about" id="about" aria-labelledby="about-title">
+			<h2 id="about-title">Curious by nature.<br>Careful by craft.</h2>
+			<div class="about-copy">
+				<p>I believe the best design starts with paying attention. To the small details, the strange questions, and the people on the other side of the screen.</p>
+				<p>I partner with thoughtful teams and ambitious founders to turn a point of view into something clear, useful, and unmistakably theirs.</p>
+				<p>Currently available for select freelance projects and collaborations.</p>
+			</div>
+		</section>
+	</main>
+
+	<footer class="site-footer">
+		<span>© 2025 Kristine</span>
+		<div class="footer-links">
+			<a href="mailto:hello@kristine.design">Email</a>
+			<a href="https://www.instagram.com/" target="_blank" rel="noreferrer">Instagram</a>
+		</div>
+	</footer>
+</body>
+</html>
