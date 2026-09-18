@@ -126,6 +126,49 @@
 		.button:hover { background: transparent; color: var(--ink); transform: translateY(-2px); }
 		.button span { font-size: 1.15rem; line-height: 0; }
 
+		.weather-card {
+			display: grid;
+			grid-template-columns: auto 1fr;
+			gap: 14px;
+			align-items: center;
+			width: min(100%, 320px);
+			margin-top: 38px;
+			padding: 16px 18px;
+			border: 1px solid rgba(32, 32, 80, 0.35);
+			border-radius: 18px;
+			background: rgba(240, 239, 255, 0.72);
+			box-shadow: 0 10px 25px rgba(55, 50, 125, 0.1);
+		}
+
+		.weather-icon {
+			width: 47px;
+			font-size: 2.2rem;
+			line-height: 1;
+			text-align: center;
+		}
+
+		.weather-label {
+			margin: 0 0 2px;
+			font-size: 0.7rem;
+			font-weight: 700;
+			letter-spacing: 0.1em;
+			text-transform: uppercase;
+		}
+
+		.weather-reading {
+			margin: 0;
+			font-family: Georgia, "Times New Roman", serif;
+			font-size: 1.4rem;
+			line-height: 1.1;
+		}
+
+		.weather-status {
+			grid-column: 2;
+			margin: -8px 0 0;
+			color: var(--violet);
+			font-size: 0.76rem;
+		}
+
 		.hero-art {
 			position: relative;
 			min-height: 470px;
@@ -355,6 +398,14 @@
 				<h1 id="hero-title">Ideas with a little more feeling.</h1>
 				<p class="hero-copy">I’m Kristine, a designer making identities, digital experiences, and visual systems for people building something meaningful.</p>
 				<a class="button" href="#work">See selected work <span aria-hidden="true">↘</span></a>
+				<aside class="weather-card" aria-live="polite" aria-label="Current weather">
+					<div class="weather-icon" id="weather-icon" aria-hidden="true">⏳</div>
+					<div>
+						<p class="weather-label">Where you are</p>
+						<p class="weather-reading" id="weather-reading">Finding your weather...</p>
+					</div>
+					<p class="weather-status" id="weather-status">Allow location access to see local conditions.</p>
+				</aside>
 			</div>
 			<div class="hero-art" role="img" aria-label="Abstract composition of a coral circle, violet curve, and expressive typography">
 				<span class="art-type">make<br>room</span>
@@ -402,5 +453,66 @@
 			<a href="https://www.instagram.com/" target="_blank" rel="noreferrer">Instagram</a>
 		</div>
 	</footer>
+
+	<script>
+		const weatherIcon = document.querySelector("#weather-icon");
+		const weatherReading = document.querySelector("#weather-reading");
+		const weatherStatus = document.querySelector("#weather-status");
+
+		const weatherDescriptions = {
+			0: ["☀️", "Clear skies"],
+			1: ["🌤️", "Mostly clear"],
+			2: ["⛅", "Partly cloudy"],
+			3: ["☁️", "Overcast"],
+			45: ["🌫️", "Foggy"],
+			48: ["🌫️", "Foggy"],
+			51: ["🌦️", "Light drizzle"],
+			53: ["🌦️", "Drizzle"],
+			55: ["🌧️", "Heavy drizzle"],
+			61: ["🌦️", "Light rain"],
+			63: ["🌧️", "Rain"],
+			65: ["🌧️", "Heavy rain"],
+			71: ["🌨️", "Light snow"],
+			73: ["❄️", "Snow"],
+			75: ["❄️", "Heavy snow"],
+			80: ["🌦️", "Rain showers"],
+			81: ["🌧️", "Rain showers"],
+			82: ["🌧️", "Heavy showers"],
+			95: ["⛈️", "Thunderstorms"],
+			96: ["⛈️", "Storms and hail"],
+			99: ["⛈️", "Storms and hail"]
+		};
+
+		function showWeatherError(message) {
+			weatherIcon.textContent = "◌";
+			weatherReading.textContent = "Weather unavailable";
+			weatherStatus.textContent = message;
+		}
+
+		async function loadWeather(position) {
+			const { latitude, longitude } = position.coords;
+			const url = `https://api.open-meteo.com/v1/forecast?latitude=${latitude}&longitude=${longitude}&current=temperature_2m,weather_code&temperature_unit=fahrenheit&timezone=auto`;
+
+			try {
+				const response = await fetch(url);
+				if (!response.ok) throw new Error("Weather request failed");
+				const data = await response.json();
+				const [icon, description] = weatherDescriptions[data.current.weather_code] || ["🌡️", "Current conditions"];
+				weatherIcon.textContent = icon;
+				weatherReading.textContent = `${Math.round(data.current.temperature_2m)}°F · ${description}`;
+				weatherStatus.textContent = "Live from your browser location";
+			} catch (error) {
+				showWeatherError("We couldn't reach the weather service.");
+			}
+		}
+
+		if ("geolocation" in navigator) {
+			navigator.geolocation.getCurrentPosition(loadWeather, () => {
+				showWeatherError("Enable location to see your weather.");
+			}, { enableHighAccuracy: false, timeout: 10000, maximumAge: 900000 });
+		} else {
+			showWeatherError("Location is not supported by this browser.");
+		}
+	</script>
 </body>
 </html>
